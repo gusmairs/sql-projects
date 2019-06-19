@@ -1,5 +1,5 @@
 -- Day of week with most buys
--- Could be day meal introduced (from meals) or bought (from events)
+-- Could be day meal introduced (from meals) or purchased (from events)
 
 -- For day actually purchased
 
@@ -13,14 +13,10 @@
 
 -- For day the meal was introduced
 --
-select date_part('dow', meals.dt) as day_of_intro, count(1) as sold
+select
+   date_part('dow', meals.dt) as day_of_intro,
+   count(1) as sold
 from meals
    join events on meals.meal_id = events.meal_id and event = 'bought'
 group by 1 order by sold desc
 ;
-
-
--- select date_part('dow', dt), count(1) as ct
--- from meals
--- group by 1 order by 2 desc
--- ;
