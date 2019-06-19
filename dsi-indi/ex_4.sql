@@ -1,4 +1,5 @@
 -- Which month had the highest percent of users who visited the site purchase a meal?
+-- Could check each visit for a buy, then tally
 
 select mon, round(bought_count::numeric/visit_count, 3) as pct
 from (
@@ -12,13 +13,21 @@ from (
 order by pct desc
 ;
 
--- select mth, count(ate), count(usr)
+-- Or tally all visits and buys, then calculate average
+
+-- select v.mon, e.cnt::real / v.cnt avg
 -- from (
---    select
---       date_part('month', v.dt) as mth,
---       v.userid as usr,
---       case when e.event = 'bought' then 1 end as ate
---    from visits v join events e on v.userid = e.userid
---    ) as x
--- group by 1
+--    select date_part('month', dt) mon, count(1) cnt
+--    from visits
+--    group by 1
+-- ) v
+-- join (
+--    select date_part('month', dt) mon, count(1) cnt
+--    from events
+--    where event='bought'
+--    group by 1
+-- ) e
+-- on v.mon = e.mon
+-- order by avg desc
+-- limit 1
 -- ;
