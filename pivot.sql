@@ -27,12 +27,12 @@
 -- )
 -- ;
 
-select distinct * from (
-   select
-      ital.meal ita,
-      french.meal fre
-      -- chinese.meal chi
-   from ital cross join french cross join chinese
-) x
-order by 1, 2
+select
+   i.rw rw,
+   i.meal ita,
+   coalesce(f.meal, 'xx') fre,
+   coalesce(c.meal, 'xx') chi
+from ital i
+   left join french f on i.rw = f.rw
+   left join chinese c on f.rw = c.rw
 ;
