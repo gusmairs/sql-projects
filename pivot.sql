@@ -10,8 +10,8 @@
 -- ;
 
 select
-   array_agg (case when type = 'french' then meal end) as chi
-   -- array_agg (case when type = 'french' then meal end) as fre,
-   -- array_agg (case when type = 'italian' then meal end) as ita
+   distinct alph,
+   type,
+   meal
 from pivt
 ;
