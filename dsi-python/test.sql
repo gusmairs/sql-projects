@@ -1,2 +1,4 @@
-select * from logins limit 5
+select *
+from logins
+where date_part('year', tmstmp) > 2013;
 ;
