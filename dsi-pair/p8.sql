@@ -1,6 +1,7 @@
 -- Combine 6 and 7 to compare ranking methods
 
-select sum(same), count(user_id), sum(same)::real/count(user_id) from (
+select sum(same), count(user_id), sum(same)::real/count(user_id)
+from (
    select
       user_id,
       othr_id,
@@ -17,11 +18,11 @@ select sum(same), count(user_id), sum(same)::real/count(user_id) from (
          ) by_len
       from (
          select r.userid, m.recipient othr_id, length(m.message) len
-            from registrations r
+         from registrations r
             join messages m on r.userid = m.sender
          union all
          select r.userid, m.sender othr_id, length(m.message) len
-            from registrations r
+         from registrations r
             join messages m on r.userid = m.recipient
       ) m
       group by 1, 2 order by 1
