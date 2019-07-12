@@ -1,66 +1,95 @@
--- ReadyChef DB Examples
+-- readychef db examples
+--
+-- aggregates
 
--- Simple where clause
-SELECT userid, dt FROM users WHERE campaign_id = 'TW';
-
--- Simple aggregation
+-- 1. simple aggregation
 select count(*) from users
-where campaign_id = 'FB';
+where campaign_id = 'fb'
+;
 
--- Aggregation by groups
-SELECT campaign_id, COUNT(*)
-FROM users
-GROUP BY campaign_id;
+-- 2. aggregation by groups
+select campaign_id, count(*)
+from users
+group by campaign_id
+;
 
--- Using DISTINCT, inside parens
-SELECT COUNT (DISTINCT dt)
-FROM users;
+-- 3. using distinct, inside parens
+select count (distinct dt)
+from users
+;
 
--- Using min and max
-SELECT MIN(dt), MAX(dt)
-FROM users;
+-- 4. using min and max
+select min(dt), max(dt)
+from users
+;
 
--- Multiple aggregates within groups
-SELECT type, AVG(price), MIN(price), MAX(price)
-FROM meals
-GROUP BY type;
+-- 5. avg price
+select avg(price) from meals
+;
 
--- Using date functions
-SELECT type, AVG(price), MIN(price), MAX(price)
-FROM meals
-WHERE DATE_PART('month', dt) <= 3 AND DATE_PART('year', dt) = 2013
-GROUP BY type;
+-- 6-7. multiple aggregates within groups
+select type, avg(price) avg_price, min(price) min_price, max(price) max_price
+from meals
+group by type
+;
 
--- Grouping by more than one column
-SELECT type, DATE_PART('month', dt) AS month, AVG(price), MIN(price), MAX(price)
-FROM meals
-WHERE DATE_PART('month', dt) <= 3 AND DATE_PART('year', dt) = 2013
-GROUP BY type, month;
+-- 8. using date functions
+select type, avg(price), min(price), max(price)
+from meals
+where date_part('month', dt) <= 3 and date_part('year', dt) = 2013
+group by type
+;
 
+-- 9. grouping by more than one column
+select type, date_part('month', dt) as month, avg(price), min(price), max(price)
+from meals
+where date_part('month', dt) <= 3 and date_part('year', dt) = 2013
+group by type, month
+;
 
--- Two joins, filter clause
+-- 10. conditional totals by group
+select
+   meal_id,
+   sum(case when event = 'bought' then 1 end) buys,
+   sum(case when event = 'like' then 1 end) likes,
+   sum(case when event = 'share' then 1 end) shares
+from events
+group by meal_id
+;
+
+-- sorting
+
+-- 1-2. average per type
+select type, avg(price) from meals
+group by type order by type
+;
+
+-- two joins, filter clause
 select us.userid, us.campaign_id, ev.meal_id, me.type, me.price, ev.event
 from events as ev
 join users as us on us.userid = ev.userid
 join meals as me on ev.meal_id = me.meal_id and ev.event = 'bought'
 
--- Group, filter clause
+-- group, filter clause
 select me.type, count(*)
 from meals as me
 join events as ev on me.meal_id = ev.meal_id and ev.event = 'bought'
 group by me.type;
 
--- 100 DS Problems 1
-SELECT users.name
-FROM users
-LEFT JOIN checkouts ON users.user_id = checkouts.user_id
-GROUP BY users.user_id
-HAVING CURRENT_DATE - MAX(checkouts.checkout_time) <= 30;
 
--- 100 DS Problems 2
-SELECT users.name AND CURRENT_DATE - MAX(checkouts.checkout_time) AS len
-FROM users
-LEFT JOIN checkouts ON users.user_id = checkouts.user_id
-GROUP BY users.user_id
-HAVING len > 30 AND checkouts.return_time IS NULL
-ORDER BY len DESC;
+
+
+-- 100 ds problems 1
+select users.name
+from users
+left join checkouts on users.user_id = checkouts.user_id
+group by users.user_id
+having current_date - max(checkouts.checkout_time) <= 30;
+
+-- 100 ds problems 2
+select users.name and current_date - max(checkouts.checkout_time) as len
+from users
+left join checkouts on users.user_id = checkouts.user_id
+group by users.user_id
+having len > 30 and checkouts.return_time is null
+order by len desc;
