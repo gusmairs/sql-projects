@@ -1,3 +1,4 @@
+-- dsi indi
 -- readychef db examples
 --
 -- aggregates
@@ -59,37 +60,33 @@ group by meal_id
 
 -- sorting
 
--- 1-2. average per type
-select type, avg(price) from meals
-group by type order by type
+-- 1-3. average per type
+select type, avg(price) avg_price from meals
+group by type order by avg_price desc
 ;
 
--- two joins, filter clause
-select us.userid, us.campaign_id, ev.meal_id, me.type, me.price, ev.event
-from events as ev
-join users as us on us.userid = ev.userid
-join meals as me on ev.meal_id = me.meal_id and ev.event = 'bought'
+-- 4-5. all meals in order
+select type, price from meals
+order by 1, 2 desc
+;
 
--- group, filter clause
-select me.type, count(*)
-from meals as me
-join events as ev on me.meal_id = ev.meal_id and ev.event = 'bought'
-group by me.type;
+-- joins
 
+-- 1. simple join
+select u.userid, u.campaign_id, e.meal_id, e.event
+from users u natural join events e
+;
 
+-- 2. two joins, filter in join clause
+select u.userid, u.campaign_id, e.meal_id, m.type, m.price
+from users u
+   natural join events e
+   join meals m on e.meal_id = m.meal_id and e.event = 'bought'
+;
 
-
--- 100 ds problems 1
-select users.name
-from users
-left join checkouts on users.user_id = checkouts.user_id
-group by users.user_id
-having current_date - max(checkouts.checkout_time) <= 30;
-
--- 100 ds problems 2
-select users.name and current_date - max(checkouts.checkout_time) as len
-from users
-left join checkouts on users.user_id = checkouts.user_id
-group by users.user_id
-having len > 30 and checkouts.return_time is null
-order by len desc;
+-- 3. group totals, filter clause
+select m.type, count(m.meal_id)
+from meals m
+   join events e on m.meal_id = e.meal_id and e.event = 'bought'
+group by 1 order by 2 desc
+;
