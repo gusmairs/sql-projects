@@ -1,3 +1,5 @@
+# This is the starter template from dsi
+
 import psycopg2
 from datetime import datetime
 

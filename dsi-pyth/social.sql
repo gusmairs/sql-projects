@@ -1,4 +1,4 @@
-create temp table daily_update as (
+create table daily_update as (
    with
       last_7 as (
          select distinct
