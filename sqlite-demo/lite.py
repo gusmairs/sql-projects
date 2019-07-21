@@ -1,5 +1,7 @@
 # Demo of Python scripting of sql query to sqlite database
-# Uses the dsi markets.db database sample
+# Uses the markets.db database sample
+# Uses a file script so that development of query can happen
+# directly in sqlite using command line tools
 
 import sqlite3 as sql
 import pandas as pd
