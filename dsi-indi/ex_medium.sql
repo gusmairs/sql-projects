@@ -8,7 +8,8 @@ where price > (
 ;
 
 -- 2. meals above avg for that type
-select m.meal_id, m.type, m.price, a.average from meals m
+select m.meal_id, m.type, m.price, a.average
+from meals m
    join (
       select type, avg(price) average from meals
       group by 1
