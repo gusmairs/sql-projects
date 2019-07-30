@@ -1,5 +1,5 @@
 -- Day of week with most buys
--- Could be day meal introduced (from meals) or purchased (from events)
+-- Could interpret as day meal introduced (from meals) or purchased (from events)
 
 -- For day actually purchased
 
@@ -12,7 +12,7 @@
 ;
 
 -- For day the meal was introduced
---
+
 select
    date_part('dow', meals.dt) as day_of_intro,
    count(1) as sold

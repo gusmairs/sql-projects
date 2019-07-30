@@ -11,6 +11,7 @@ with tally as (
    ) as x
    join users on users.userid = x.userid
 )
+
 select grp, id, rank, cnt from (
    select
       id,

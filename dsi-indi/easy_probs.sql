@@ -1,5 +1,6 @@
 -- dsi indi
--- readychef db examples
+-- readychef postgres db examples
+
 --
 -- aggregates
 
@@ -58,6 +59,7 @@ from events
 group by meal_id
 ;
 
+--
 -- sorting
 
 -- 1-3. average per type
@@ -70,6 +72,7 @@ select type, price from meals
 order by 1, 2 desc
 ;
 
+--
 -- joins
 
 -- 1. simple join

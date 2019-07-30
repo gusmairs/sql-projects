@@ -1,5 +1,4 @@
 -- Drops previous table to clean up
-
 drop table tally
 ;
 
@@ -17,7 +16,7 @@ create table tally as
 ;
 
 -- Creates table of 4 max counts, then joins back to the tally table,
--- matching on the max tally and the campaign_id, works instantaneosuly.
+-- matching on the max tally and the campaign_id, works fast.
 
 select t.campaign_id, t.userid, t.user_count
 from (
