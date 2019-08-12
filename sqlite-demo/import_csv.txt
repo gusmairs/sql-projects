@@ -1,7 +1,0 @@
-sqlite code to get a table from a csv file within sqlite
-assumes file has a header row
-
-.mode csv
-.import 'reg.csv' registrations
-.mode headers on
-.mode column

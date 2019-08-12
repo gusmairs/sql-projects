@@ -6,7 +6,7 @@
 
 import sqlite3 as sql
 
-db = 'new.db'
+db = 'data/insert.db'
 con = sql.connect(db)
 c = con.cursor()
 c.execute('''
