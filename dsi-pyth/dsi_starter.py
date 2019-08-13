@@ -3,13 +3,15 @@
 import psycopg2
 from datetime import datetime
 
-conn = psycopg2.connect(dbname='socialmedia', user='postgres', host='/tmp')
+conn = psycopg2.connect(
+    dbname='socialmedia',
+    user='postgres',
+    host='/tmp'
+)
 c = conn.cursor()
-
 today = '2014-08-14'
 
-# This is not strictly necessary but demonstrates how you can convert a date
-# to another format
+# Not needed but demonstrates how to convert a date to another format
 ts = datetime.strptime(today, '%Y-%m-%d').strftime("%Y%m%d")
 
 c.execute(

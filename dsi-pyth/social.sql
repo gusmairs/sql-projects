@@ -1,3 +1,6 @@
+drop table if exists daily_update
+;
+
 create table daily_update as (
    with
       last_7 as (

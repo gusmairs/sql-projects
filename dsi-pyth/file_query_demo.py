@@ -6,7 +6,7 @@ import pandas as pd
 
 conn = psycopg2.connect(dbname='socialmedia')
 c = conn.cursor()
-with open('dsi-pyth/test.sql', 'r') as q:
+with open('test.sql', 'r') as q:
     query = q.read().replace('\n', ' ')
 c.execute(query)
 df = pd.DataFrame(c.fetchall(), columns=['id', 'stamp', 'type'])

@@ -1,24 +1,21 @@
+# Refined from the dsi starter code
+
 import psycopg2
-from datetime import datetime
 
-conn = psycopg2.connect(dbname='socialmedia',
-                        user='postgres',
-                        host='/tmp')
+conn = psycopg2.connect(dbname='socialmedia')
 c = conn.cursor()
-
 today = '2014-08-14'
-
-# This is not strictly necessary but demonstrates how you can convert a date
-# to another format
-ts = datetime.strptime(today, '%Y-%m-%d').strftime("%Y%m%d")
-
 c.execute(
-    '''CREATE TABLE logins_7d AS
-    SELECT userid, COUNT(*) AS cnt, timestamp %(ts)s AS date_7d
-    FROM logins
-    WHERE logins.tmstmp > timestamp %(ts)s - interval '7 days'
-    GROUP BY userid;''', {'ts': ts}
+    '''
+    drop table if exists logins_7d
+    ;
+    create table logins_7d as
+        select userid, count(*) as cnt, date(timestamp %s) as date_7d
+        from logins
+        where logins.tmstmp > timestamp %s - interval '7 days'
+        group by userid
+    ;
+    ''', (today, today)
 )
-
 conn.commit()
 conn.close()
