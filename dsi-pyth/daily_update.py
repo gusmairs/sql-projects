@@ -1,4 +1,5 @@
-# The data updating script, brings in query from the file social.sql
+# The data updating script
+# Brings in query from the file social.sql
 # Working from file means the SQL code can be developed and tested
 # directly within the Postgres environment and psycopg2 creates access
 # to that code from within Python
@@ -10,10 +11,12 @@
 # needed that is not easily done in shell
 
 import psycopg2
+print('.. ', end='')
 conn = psycopg2.connect(dbname='socialmedia')
 c = conn.cursor()
 with open('social.sql', 'r') as q:
     query = q.read().replace('\n', ' ')
 c.execute(query)
 conn.commit()
+print('The daily_update table is refreshed ..')
 conn.close()
